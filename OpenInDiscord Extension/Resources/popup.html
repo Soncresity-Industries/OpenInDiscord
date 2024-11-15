@@ -6,6 +6,53 @@
     <script type="module" src="popup.js"></script>
 </head>
 <body>
-    <strong>Hello World!</strong>
+    <div class="settings">        
+        <div class="setting-item">
+            <label>
+                <input type="checkbox" id="showBanner">
+                Show Open in App banner
+            </label>
+        </div>
+
+        <div class="setting-item">
+            <label>
+                <input type="checkbox" id="instantOpen">
+                Instantly prompt to open Discord
+            </label>
+        </div>
+
+        <div class="setting-item">
+            <label>Discord URL Scheme:</label>
+            <input type="text" id="urlScheme" value="com.hammerandchisel.discord">
+        </div>
+
+        <h4>Enable URL Types:</h4>
+        <div class="setting-item">
+            <label>
+                <input type="checkbox" id="enableInvites">
+                Discord Invites
+            </label>
+        </div>
+        <div class="setting-item">
+            <label>
+                <input type="checkbox" id="enableUsers">
+                User Profiles
+            </label>
+        </div>
+        <div class="setting-item">
+            <label>
+                <input type="checkbox" id="enableChannels">
+                Channels
+            </label>
+        </div>
+        <div class="setting-item">
+            <label>
+                <input type="checkbox" id="enableFavorites">
+                Favorites
+            </label>
+        </div>
+
+        <div class="copyright">© Adrian Castro 2024</div>
+    </div>
 </body>
 </html>

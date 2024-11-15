@@ -253,7 +253,7 @@
 				DEVELOPMENT_TEAM = L988J7YMK5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OpenInDiscord Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "OpenInDiscord Extension";
+				INFOPLIST_KEY_CFBundleDisplayName = OpenInDiscord;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -283,7 +283,7 @@
 				DEVELOPMENT_TEAM = L988J7YMK5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OpenInDiscord Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "OpenInDiscord Extension";
+				INFOPLIST_KEY_CFBundleDisplayName = OpenInDiscord;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -316,6 +316,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpenInDiscord/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = OpenInDiscord;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -352,6 +353,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpenInDiscord/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = OpenInDiscord;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
