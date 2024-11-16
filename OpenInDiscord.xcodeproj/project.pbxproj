@@ -148,6 +148,7 @@
 			buildPhases = (
 				3A5E54BF2CE7B67D00359E6D /* Sources */,
 				3A5E54C02CE7B67D00359E6D /* Frameworks */,
+				3A5E561F2CE9195C00359E6D /* ShellScript */,
 				3A5E54C12CE7B67D00359E6D /* Resources */,
 			);
 			buildRules = (
@@ -218,6 +219,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3A5E561F2CE9195C00359E6D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/OpenInDiscord Extension/Resources/_locales/en/messages.json",
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/_locales/en/messages.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$CONFIGURATION\" == \"Debug\" ]; then\n    MESSAGES_FILE=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/_locales/en/messages.json\"\n    TEMP_FILE=$(mktemp)\n    sed '/\"extension_name\": {/,/message\":/s/\\(\"message\": \"\\)[^\"]*\"/\\1OpenInDiscord (Debug)\"/' \"$MESSAGES_FILE\" > \"$TEMP_FILE\"\n    cp \"$TEMP_FILE\" \"$MESSAGES_FILE\"\n    rm \"$TEMP_FILE\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3A5E54A22CE7B67B00359E6D /* Sources */ = {
