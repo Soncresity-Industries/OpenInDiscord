@@ -59,13 +59,21 @@ function handleLink(link) {
 function showBanner(discordUrl) {
     if (document.getElementById('discordBanner')) return;
     
+    const meta = document.createElement('meta');
+    meta.name = 'theme-color';
+    meta.content = '#0f0e12';
+    document.head.appendChild(meta);
+    
     const banner = `
         <div id="discordBanner">
             <div class="logo-wrapper">
                 <img src="${browser.runtime.getURL('images/icon-128.png')}">
-                <span>Open this page in Discord</span>
+                <div class="text-wrapper">
+                    <div class="title">Discord</div>
+                    <div class="subtitle">Open in the Discord app</div>
+                </div>
             </div>
-            <a href="${discordUrl}" class="open-button">Open</a>
+            <button class="openInDiscordButton">OPEN</button>
         </div>
     `;
     
@@ -78,7 +86,7 @@ function showBanner(discordUrl) {
         document.body.style.marginTop = '48px';
         document.body.insertAdjacentHTML('afterbegin', banner);
         
-        document.querySelector('#discordBanner .open-button').addEventListener('click', (e) => {
+        document.querySelector('#discordBanner .openInDiscordButton').addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = discordUrl;
         });
