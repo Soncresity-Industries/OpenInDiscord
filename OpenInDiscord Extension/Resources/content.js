@@ -18,24 +18,6 @@ function transformUrl(url) {
     const urlObj = new URL(url);
     let path = urlObj.pathname;
     
-    if (urlObj.hostname === 'discordapp.page.link') {
-        const linkParam = urlObj.searchParams.get('link');
-        if (linkParam) {
-            try {
-                const innerUrl = new URL(decodeURIComponent(linkParam));
-                if (innerUrl.hostname === 'discord.gg') {
-                    if (!settings.enableInvites) return null;
-                    const inviteCode = innerUrl.pathname.slice(1);
-                    return `${settings.urlScheme}://discord.com/invite/${inviteCode}`;
-                }
-            } catch (e) {
-                console.error('Invalid inner URL', linkParam, e);
-                return null;
-            }
-        }
-        return null;
-    }
-    
     if (urlObj.hostname === 'discord.gg' || path.startsWith('/invite/')) {
         if (!settings.enableInvites) return null;
         const inviteCode = urlObj.hostname === 'discord.gg' ? 
