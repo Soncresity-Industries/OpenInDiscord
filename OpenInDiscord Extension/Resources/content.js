@@ -12,19 +12,36 @@ let settings = { ...defaultSettings };
 
 browser.storage.local.get(defaultSettings).then(stored => {
     settings = { ...defaultSettings, ...stored };
-    checkUrl();
 });
 
 function transformUrl(url) {
     const urlObj = new URL(url);
     let path = urlObj.pathname;
     
-    if (!settings.enableInvites) {
-        if (urlObj.hostname === 'discord.gg' || path.startsWith('/invite/')) {
-            return null;
+    if (urlObj.hostname === 'discordapp.page.link') {
+        const linkParam = urlObj.searchParams.get('link');
+        if (linkParam) {
+            try {
+                const innerUrl = new URL(decodeURIComponent(linkParam));
+                if (innerUrl.hostname === 'discord.gg') {
+                    if (!settings.enableInvites) return null;
+                    const inviteCode = innerUrl.pathname.slice(1);
+                    return `${settings.urlScheme}://discord.com/invite/${inviteCode}`;
+                }
+            } catch (e) {
+                console.error('Invalid inner URL', linkParam, e);
+                return null;
+            }
         }
-    } else if (urlObj.hostname === 'discord.gg') {
-        path = `/invite/${path.slice(1)}`;
+        return null;
+    }
+    
+    if (urlObj.hostname === 'discord.gg' || path.startsWith('/invite/')) {
+        if (!settings.enableInvites) return null;
+        const inviteCode = urlObj.hostname === 'discord.gg' ? 
+            path.slice(1) : 
+            path.split('/').filter(Boolean).pop();
+        return `${settings.urlScheme}://discord.com/invite/${inviteCode}`;
     }
     
     if (path.startsWith('/users/') && !settings.enableUsers) {
@@ -36,6 +53,25 @@ function transformUrl(url) {
     }
     
     return path ? `${settings.urlScheme}://discord.com${path}` : null;
+}
+
+function handleLink(link) {
+    if (!link || !link.href) return;
+    
+    try {
+        const url = new URL(link.href);
+        if (url.hostname.match(/discord\.(com|gg)/)) {
+            const discordUrl = transformUrl(link.href);
+            if (discordUrl) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = discordUrl;
+                });
+            }
+        }
+    } catch (e) {
+        console.error('Invalid URL', link.href, e);
+    }
 }
 
 function showBanner(discordUrl) {
@@ -57,7 +93,7 @@ function showBanner(discordUrl) {
         const existingBanner = document.getElementById('discordBanner');
         if (existingBanner) return;
         
-        document.body.style.marginTop = '44px';
+        document.body.style.marginTop = '48px';
         document.body.insertAdjacentHTML('afterbegin', banner);
         
         document.querySelector('#discordBanner .open-button').addEventListener('click', (e) => {
@@ -67,30 +103,6 @@ function showBanner(discordUrl) {
     };
     
     insertBanner();
-    
-    const observer = new MutationObserver(() => {
-        requestAnimationFrame(insertBanner);
-    });
-    
-    observer.observe(document.documentElement, {
-        childList: true,
-        subtree: true
-    });
-    
-    window.addEventListener('load', insertBanner);
-    document.addEventListener('DOMContentLoaded', insertBanner);
-}
-
-function handleUrl(url) {
-    const discordUrl = transformUrl(url);
-    
-    if (!discordUrl) return;
-    
-    if (settings.instantOpen) {
-        window.location.href = discordUrl;
-    } else if (settings.showBanner) {
-        showBanner(discordUrl);
-    }
 }
 
 function checkUrl() {
@@ -98,24 +110,24 @@ function checkUrl() {
         setTimeout(checkUrl, 10);
         return;
     }
-    if (window.location.hostname.match(/discord\.(com|gg)/)) {
-        handleUrl(window.location.href);
+    
+    const url = window.location.href;
+    const urlObj = new URL(url);
+    
+    if (urlObj.hostname.match(/discord\.(com|gg)/)) {
+        const discordUrl = transformUrl(url);
+        if (discordUrl) {
+            if ((urlObj.hostname === 'discord.gg' || urlObj.pathname.startsWith('/invite/')) || settings.instantOpen) {
+                window.location.href = discordUrl;
+            }
+            if (settings.showBanner) {
+                showBanner(discordUrl);
+            }
+        }
     }
 }
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.type === 'checkUrl') {
-        handleUrl(request.url);
-    }
-});
-
-document.addEventListener('click', (e) => {
-    const link = e.target.closest('a');
-    if (link && (link.href.match(/discord\.(com|gg)/) || link.href.includes('discordapp.page.link'))) {
-        e.preventDefault();
-        handleUrl(link.href);
-    }
-});
+checkUrl();
 
 let lastUrl = location.href;
 new MutationObserver(() => {
@@ -125,3 +137,21 @@ new MutationObserver(() => {
         checkUrl();
     }
 }).observe(document, { subtree: true, childList: true });
+
+document.onreadystatechange = function () {
+    if (document.readyState === "complete") {
+        document.querySelectorAll('a').forEach(handleLink);
+    }
+};
+
+new MutationObserver(() => {
+    if (document.readyState === "complete") {
+        requestAnimationFrame(() => {
+            document.querySelectorAll('a').forEach(handleLink);
+        });
+    }
+}).observe(document.documentElement, {
+    childList: true,
+    subtree: true
+});
+

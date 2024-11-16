@@ -14,10 +14,6 @@
         "512": "images/icon-512.png"
     },
 
-    "background": {
-        "scripts": [ "background.js" ]
-    },
-
     "content_scripts": [{
         "js": [ "content.js" ],
         "css": [ "banner.css" ],
@@ -26,16 +22,31 @@
             "*://*.discord.gg/*"
         ],
         "run_at": "document_start"
+    }, {
+        "js": [ "content.js" ],
+        "matches": [ "*://*/*" ],
+        "exclude_matches": [
+            "*://*.discord.com/*",
+            "*://*.discord.gg/*"
+        ],
+        "run_at": "document_start"
     }],
 
     "web_accessible_resources": [{
         "resources": ["images/*"],
-        "matches": ["*://*.discord.com/*", "*://*.discord.gg/*"]
+        "matches": ["<all_urls>"]
     }],
 
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "images/icon-128.png"
+        "default_icon": {
+            "16": "images/toolbar-icon-16.png",
+            "19": "images/toolbar-icon-19.png",
+            "32": "images/toolbar-icon-32.png",
+            "38": "images/toolbar-icon-38.png",
+            "48": "images/toolbar-icon-48.png",
+            "72": "images/toolbar-icon-72.png"
+        }
     },
 
     "permissions": [
