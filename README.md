@@ -13,6 +13,7 @@ A Safari extension that redirects Discord links to open in the Discord app on iO
   - User profiles
   - Channels
   - Favorites
+  - Customize the url scheme that will be called
 
 ## License
 
