@@ -20,5 +20,6 @@ A Safari extension that redirects Discord links to open in the Discord app on iO
 © Adrian Castro 2024. All rights reserved.
 
 > [!IMPORTANT]
-> This repo has been forked from castdrian's own [OpenInDiscord](https://github.com/castdrian/OpenInDiscord) Repo.
-> All credit goes to him. This fork has only been modified to fit [SChat](https://github.com/Soncresity-Industries/SChat-Tweak)'s purpose.
+> This repo has been forked from the @castdrian/OpenInDiscord Repo.
+> This project is merely a fork made to fit [SChat](https://github.com/Soncresity-Industries/SChat-Tweak)'s requirements.
+> **This project is licensed under All Rights Reserved (ARR) by castdrian**
